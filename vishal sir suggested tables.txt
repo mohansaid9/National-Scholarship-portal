@@ -1,0 +1,170 @@
+drop table institute_status;
+drop table state_nodal_officer;
+drop table minister;
+drop table student_status_details;
+drop table student_document_details;
+drop table student_academic_details;
+drop table student_fee_details;
+drop table student_disability_details;
+drop table student_personal_details;
+drop table address;
+drop table student_bank_details;
+drop table student_basic_details;
+drop table institute_details;
+
+
+create table institute_details(	
+Institute_Category	varchar2(10),
+Institute_Name	varchar2(50),
+Institute_Code	varchar2(10),
+Dise_Code	varchar2(10),
+Location	varchar2(10),
+Institute_Type	varchar2(10),
+Admission_Started_Year	number(4),
+Principal_Name	varchar2(30),
+Mobile_Number	varchar2(10),
+Telephone	varchar2(10),
+Affil_University_board_Name	varchar2(30),
+Affil_University_State	varchar2(30),
+constraint ins_det_pk primary key (Institute_Code)	
+);	
+
+create table student_basic_details(
+Aadhar varchar2(12),
+Password varchar2(8),
+Name varchar2(25),
+Date_of_Birth date,
+Gender char,
+Mobile varchar2(10),
+Email_Id varchar2(50),
+Institute_Code varchar2(10),
+Fathers_Name varchar2(25),
+Mothers_Name varchar2(25),
+Age number(2),
+constraint stu_basic_det_pk primary key (aadhar),
+constraint stu_basic_det_fk foreign key (Institute_Code) references institute_details(Institute_Code)
+);
+
+
+create table student_bank_details(
+Aadhar varchar2(12),
+Account_no varchar2(12),
+Bank_ifsc varchar2(8),
+Bank_name varchar2(40),
+constraint stu_bank_det_pk primary key (account_no),
+constraint stu_bank_det_fk foreign key (aadhar) references student_basic_details(aadhar)
+);
+
+
+
+create table address(
+Block_or_Taluka varchar2(40),
+House_Number varchar2(40),
+Street_Number varchar2(40),
+line_1 varchar2(40),
+lline_2 varchar2(40),
+city varchar2(30),
+Dist varchar2(30),
+State varchar2(20),
+Pin varchar2(10),
+aadhar varchar2(12),
+institute_Code varchar2(10),
+constraint address_fk foreign key (aadhar) references student_basic_details(aadhar),
+constraint address_fk2 foreign key (institute_Code) references institute_details(institute_Code)
+);
+
+
+create table student_personal_details(
+Aadhar varchar2(12), 
+Is_Disabled varchar2(5),
+Marital_Status varchar2(12),
+Fathers_Profession varchar2(20),
+Mothers_Profession varchar2(20),
+Choose_Scheme varchar2(20),
+Religion varchar2(20),
+Community varchar2(20),
+Category varchar2(5),
+Family_Income number(6),
+constraint stud_pers_det_pk foreign key (aadhar) references student_basic_details(aadhar)
+);
+
+create table student_disability_details(
+Type_of_Disability varchar2(20),
+Percentage_of_Disability number(3),
+Aadhar varchar2(12),
+constraint stud_dis_det_pk foreign key (aadhar) references student_basic_details(aadhar)
+);
+
+
+create table student_fee_details(
+Aadhar varchar2(12),
+Admission_Fee number(6),
+Tuition_Fee number(6),
+Other_Fee number(6),
+constraint stud_fee_det_pk foreign key (aadhar) references student_basic_details(aadhar)
+);
+
+create table student_academic_details(		
+Aadhar	varchar2(12),	
+Standard number(2),	
+Roll_no	varchar2(12),	
+Board_Name	varchar2(30),	
+Percentage	number(3,2),	
+Passing_Year	number(4),	
+constraint stud_acad_det_pk foreign key (aadhar) references student_basic_details(aadhar)		
+);		
+
+create table student_document_details(	
+Aadhar	varchar2(12),
+Domicile_Certificate	varchar2(50),
+Student_Photograph	varchar2(50),
+Institute_Id_Card	varchar2(50),
+Caste_or_Income_Certificate	varchar2(50),
+Previous_Year_Marksheet	varchar2(50),
+Fee_Reciept_of_Current_Year	varchar2(50),
+Bank_Passbook_Front_Page	varchar2(50),
+Aadhaar_Card	varchar2(50),
+Tenth_Marksheet	varchar2(50),
+Twelfth_Marksheet	varchar2(50),
+Ninth_Marksheet	varchar2(50),
+Institute_Bonafied_Certificate	varchar2(50),
+Photo	varchar2(50),
+constraint stud_doc_det_pk foreign key (aadhar) references student_basic_details(aadhar)	
+);	
+
+create table student_status_details(	
+Aadhar 	varchar2(12),
+Institute_Approval_Status	varchar2(40),
+State_Nodal_Officer_Status	varchar2(40),
+Ministry_Approval_Status	varchar2(40),
+Sanctioned_amount	number(5),
+constraint stud_stat_det_pk foreign key (aadhar) references student_basic_details(aadhar)	
+);	
+
+create table institute_status(	
+Institute_Code	varchar2(10),
+State_Nodal_Officer_Status	varchar2(40),
+Minsitry_Approval_Status	varchar2(40),
+constraint inst_status_pk foreign key (institute_code) references institute_details(institute_code)	
+);	
+
+
+	
+create table minister(	
+Minister_Id	number(3),
+Minister_Name	varchar2(50),
+Minister_Password	varchar2(8),
+constraint minister_pk primary key (minister_id)	
+);	
+	
+	
+create table state_nodal_officer(	
+State_Nodal_Officer_Id	number(4),
+State_Nodal_Officer_Name	varchar2(50),
+State_Nodal_Officer_Password	varchar2(8),
+State	varchar2(20),
+constraint sno_pk primary key (State_Nodal_Officer_Id)	
+);	
+
+
+
