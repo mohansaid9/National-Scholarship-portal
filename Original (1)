@@ -1,0 +1,227 @@
+drop table institute_status;
+drop table state_nodal_officer;
+drop table minister;
+drop table student_status_details;
+drop table student_document_details;
+drop table student_academic_details;
+drop table student_fee_details;
+drop table student_disability_details;
+drop table student_personal_details;
+drop table address;
+drop table student_bank_details;
+drop table student_basic_details;
+drop table institute_details;
+
+
+create table institute_details(	
+Institute_Category varchar2(10),
+Institute_Name varchar2(50),
+Institute_Code varchar2(10),
+password varchar2(8),
+institute_mail varchar2(50),
+Dise_Code varchar2(10),
+Location varchar2(10),
+Institute_Type varchar2(10),
+Admission_Started_Year number(4),
+Principal_Name varchar2(30),
+Mobile_Number varchar2(10),
+Telephone varchar2(10),
+Affil_University_board_Name varchar2(30),
+Affil_University_State varchar2(30),
+constraint ins_det_pk primary key (Institute_Code)	
+);	
+
+create table student_basic_details(
+Aadhar varchar2(12),
+Password varchar2(8),
+Name varchar2(25),
+Date_of_Birth date,
+Gender char,
+Mobile varchar2(10),
+Email_Id varchar2(50),
+Institute_Code varchar2(10),
+Fathers_Name varchar2(25),
+Mothers_Name varchar2(25),
+Age number(2),
+constraint stu_basic_det_pk primary key (aadhar),
+constraint stu_basic_det_fk foreign key (Institute_Code) references institute_details(Institute_Code)
+);
+
+
+create table student_bank_details(
+Aadhar varchar2(12),
+Account_no varchar2(12),
+Bank_ifsc varchar2(8),
+Bank_name varchar2(40),
+constraint stu_bank_det_pk primary key (account_no),
+constraint stu_bank_det_fk foreign key (aadhar) references student_basic_details(aadhar)
+);
+
+
+
+create table address(
+address_id number(10),
+Block_or_Taluka varchar2(40),
+House_Number varchar2(40),
+Street_Number varchar2(40),
+line_1 varchar2(40),
+line_2 varchar2(40),
+city varchar2(30),
+District varchar2(30),
+State varchar2(20),
+Pincode number(10),
+aadhar varchar2(12),
+institute_Code varchar2(10),
+constraint address_pk primary key (address_id),
+constraint address_fk foreign key (aadhar) references student_basic_details(aadhar),
+constraint address_fk2 foreign key (institute_Code) references institute_details(institute_Code)
+);
+
+
+create table student_personal_details(
+Aadhar varchar2(12), 
+Is_Disabled varchar2(5),
+Marital_Status varchar2(12),
+Fathers_Profession varchar2(20),
+Mothers_Profession varchar2(20),
+Choose_Scheme varchar2(20),
+Religion varchar2(20),
+Community varchar2(20),
+Category varchar2(5),
+Family_Income number(6),
+constraint stud_pers_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_personal_det_pk primary key (aadhar)
+);
+
+create table student_disability_details(
+Type_of_Disability varchar2(20),
+Percentage_of_Disability number(3),
+Aadhar varchar2(12),
+constraint stud_dis_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_disabil_det_pk primary key (aadhar)
+);
+
+
+create table student_fee_details(
+Aadhar varchar2(12),
+Admission_Fee number(6),
+Tuition_Fee number(6),
+Other_Fee number(6),
+constraint stud_fee_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_fee_det_pk primary key (aadhar)
+);
+
+create table student_academic_details(		
+Aadhar varchar2(12),	
+Standard number(2),	
+Roll_no varchar2(12),	
+Board_Name varchar2(30),	
+Percentage number(5,2),	
+Passing_Year number(4),
+PRESENT_YEAR number(2),
+MODE_OF_STUDY varchar2(8),
+PRESENT_COURSE varchar2(40),
+PREVIOUS_YEAR number(1),
+PREVIOUS_COURSE varchar2(40),
+PREVIOUS_COURSE_PERCENT number(5,2),	
+constraint stud_acad_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_acad_det_pk primary key (aadhar)	
+);		
+
+create table student_document_details(	
+Aadhar varchar2(12),
+Domicile_Certificate varchar2(50),
+Student_Photograph varchar2(50),
+Institute_Id_Card varchar2(50),
+Caste_or_Income_Certificate varchar2(50),
+Previous_Year_Marksheet varchar2(50),
+Fee_Reciept_of_Current_Year varchar2(50),
+Bank_Passbook_Front_Page varchar2(50),
+Aadhaar_Card varchar2(50),
+Tenth_Marksheet varchar2(50),
+Twelfth_Marksheet varchar2(50),
+Ninth_Marksheet varchar2(50),
+Institute_Bonafied_Certificate varchar2(50),
+constraint stud_doc_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_doc_det_pk primary key (aadhar)
+);	
+
+create table student_status_details(	
+Aadhar varchar2(12),
+Institute_Approval_Status varchar2(40),
+State_Nodal_Officer_Status varchar2(40),
+Ministry_Approval_Status varchar2(40),
+Sanctioned_amount number(5),
+constraint stud_stat_det_pk foreign key (aadhar) references student_basic_details(aadhar),
+constraint stu_stat_det_pk primary key (aadhar)	
+);	
+
+create table institute_status(	
+Institute_Code varchar2(10),
+State_Nodal_Officer_Status varchar2(40),
+Minsitry_Approval_Status varchar2(40),
+constraint inst_status_pk foreign key (institute_code) references institute_details(institute_code),
+constraint ins_status_pk primary key (institute_code)	
+);	
+
+
+	
+create table minister(	
+Minister_Id number(3),
+Minister_Name varchar2(50),
+Minister_Password varchar2(8),
+constraint minister_pk primary key (minister_id)	
+);	
+	
+	
+create table state_nodal_officer(	
+State_Nodal_Officer_Id number(4),
+State_Nodal_Officer_Name varchar2(50),
+State_Nodal_Officer_Password varchar2(8),
+State varchar2(20),
+constraint sno_pk primary key (State_Nodal_Officer_Id)	
+);	
+
+select * from institute_status;
+
+select * from state_nodal_officer;
+
+select * from  minister;
+
+select * from student_status_details;
+
+select * from student_document_details;
+
+select * from student_academic_details;
+
+select * from  student_fee_details;
+
+select * from  student_disability_details;
+
+select * from  student_personal_details;
+
+select * from  address;
+
+select * from student_bank_details;
+
+select * from student_basic_details;
+
+select * from institute_details;
+
+
+insert into institute_details values('Medical', 'JIPMER', '222', 'qwerty', 'abcd@gmail','J1', 'Urban', 'Research',2000,'Mohan Dandu', 9876543210, 2255, 'IMC', 'New Delhi');
+insert into student_basic_details values('1255555','qwerty12','Gautam', '19-DEC-1996','M', '7012876257', 'gautam@gmail.com', 'A9', 'Murali', 'Uma', 24) ;
+insert into student_bank_details values('657209918520', '30918395210', 'SBIN2002', 'SBI');
+insert into address values(11,'Palakkad', '48/163', 'Temple street', '123', '456', 'Palakkad','Palakkad', 'Kerala', '678012', '657209918520', '222');
+insert into student_personal_Details values('657209918520', 'NO', 'Single', 'Business', 'Accountant', 'NTSE', 'Hindu', 'Nair', 'Gen', 100000);
+insert into student_disability_details values('NIL', 0, '657209918520');
+insert into student_fee_details values('657209918520', 20000, 2000, 20);
+insert into student_academic_details values('657209918520', 10, '441199', 'CBSE', 92.56, 2014, 2, 'Online', 'Btech', 1, 'Inter', 85.20);	
+insert into student_document_details values('657209918520', 'gautamidcard', 'gautamcaste', 'gautammarksheet', 'gautamfeereciept', 'gautampassbook', 'gautamaadhar', 'gautamtenth', 'gautamwelfth', 'gautamninth', 'gautambonafide', 'gautamphoto', 'gautampdf');
+insert into student_status_details values('657209918520', 'Approved', 'Rejected', 'Rejected', 0);	
+insert into institute_status values(222, 'Approved', 'Approved');
+insert into minister values(999, 'Amit Shah', 'amit123');
+insert into state_nodal_officer values(1001, 'Kamal Hasan', 'kaman123', 'Kerala');
+
+
+
